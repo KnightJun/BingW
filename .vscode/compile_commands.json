@@ -1,0 +1,11 @@
+[
+{
+  "directory": "D:\\Code\\Private\\Bing Wallpaper",
+  "arguments": ["D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29333\\bin\\HostX64\\x64\\cl.exe", "-c", "/EHsc", "-nologo", "-Ox", "-fp:fast", "-I\"D:\\\\Code\\\\Private\\\\Bing Wallpaper\\\\build\\\\.gens\\\\BingBackground\\\\windows\\\\x64\\\\release\\\\rules\\\\qt\\\\ui\"", "-ID:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\include\\QtNetwork", "-ID:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\include\\QtCore", "-ID:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\include", "-ID:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\mkspecs\\win32-msvc", "-DQT_NO_DEBUG", "-DQT_DEPRECATED_WARNINGS", "-DQT_NETWORK_LIB", "-DQT_CORE_LIB", "-DNDEBUG", "-Fobuild\\.objs\\BingBackground\\windows\\x64\\release\\src\\main.cpp.obj", "src\\main.cpp"],
+  "file": "src\\main.cpp"
+},
+{
+  "directory": "D:\\Code\\Private\\Bing Wallpaper",
+  "arguments": ["D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29333\\bin\\HostX64\\x64\\cl.exe", "-c", "/EHsc", "-nologo", "-Ox", "-fp:fast", "-I\"D:\\\\Code\\\\Private\\\\Bing Wallpaper\\\\build\\\\.gens\\\\BingBackground\\\\windows\\\\x64\\\\release\\\\rules\\\\qt\\\\ui\"", "-ID:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\include\\QtNetwork", "-ID:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\include\\QtCore", "-ID:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\include", "-ID:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\mkspecs\\win32-msvc", "-DQT_NO_DEBUG", "-DQT_DEPRECATED_WARNINGS", "-DQT_NETWORK_LIB", "-DQT_CORE_LIB", "-DNDEBUG", "-Fobuild\\.objs\\BingBackground\\windows\\x64\\release\\src\\WallpaperInfo.cpp.obj", "src\\WallpaperInfo.cpp"],
+  "file": "src\\WallpaperInfo.cpp"
+}]
