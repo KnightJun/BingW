@@ -73,8 +73,7 @@ void WallpaperInfo::onGetFinish()
     mInfoJson = jsonDoc.object();
     mImageCount = mInfoJson["images"].toArray().size();
     mCurrentJsonObj = mInfoJson["images"].toArray()[mCurrentInx].toObject();
-    qDebug() << getImageUrl(250,320);
-    qDebug() << getGoogleEarthLink();
+    emit sigGetFinish();
 }
 
 void WallpaperInfo::onGetError(QNetworkReply::NetworkError err)
