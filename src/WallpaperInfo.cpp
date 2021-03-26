@@ -3,6 +3,9 @@
 #include <QTextCodec>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QFile>
+#include <QDesktopServices>
+
 void WallpaperInfo::getInfo()
 {
     const QString infoUrl = "HPImageArchive.aspx?format=js&idx=0&n=10&FORM=BEHPTB&uhd=1&uhdwidth=1920&uhdheight=1080";
@@ -17,6 +20,20 @@ void WallpaperInfo::getInfo()
 WallpaperInfo::WallpaperInfo(QObject* parent):QObject(parent)
 {
 
+}
+
+int WallpaperInfo::getCurrentInx()
+{
+    return mCurrentInx;
+}
+
+bool WallpaperInfo::setCurrentInx(int inx)
+{
+    if(inx < 0 || inx >= mImageCount){
+        return false;
+    }
+    mCurrentInx = inx;
+    mCurrentJsonObj = mInfoJson["images"].toArray()[mCurrentInx].toObject();
 }
 
 WallpaperInfo::~WallpaperInfo()
@@ -34,6 +51,29 @@ QString WallpaperInfo::getCopyright()
     return mCurrentJsonObj["copyright"].toString();
 }
 
+QString WallpaperInfo::getFullstartdate()
+{
+    return mCurrentJsonObj["fullstartdate"].toString();
+}
+
+QString WallpaperInfo::getEnddate()
+{
+    return mCurrentJsonObj["enddate"].toString();
+}
+
+QString WallpaperInfo::getKeyword()
+{
+    return QUrl::fromPercentEncoding(getKeywordUrlEncode().toLocal8Bit());
+}
+
+void WallpaperInfo::stop()
+{
+    mReply->disconnect();
+    mReply->close();
+    mReply->deleteLater();
+    mReply = nullptr;
+}
+
 QString WallpaperInfo::getCopyrightLink()
 {
     return mCurrentJsonObj["copyrightlink"].toString();
@@ -41,10 +81,10 @@ QString WallpaperInfo::getCopyrightLink()
 
 QString WallpaperInfo::getGoogleEarthLink()
 {
-    return "https://earth.google.com/web/search/" + getKeyword();
+    return "https://earth.google.com/web/search/" + getKeywordUrlEncode();
 }
 
-QString WallpaperInfo::getKeyword()
+QString WallpaperInfo::getKeywordUrlEncode()
 {
     QRegExp rx("q=([%\\w\\d]+)&?");
     int pos = rx.indexIn(getCopyrightLink());
@@ -64,19 +104,41 @@ QString WallpaperInfo::getImageUrl(int width, int height)
 
 void WallpaperInfo::onGetFinish()
 {
+    QString lastVer;
+    if(!mInfoJson.isEmpty()){
+        lastVer = mInfoJson["images"].toArray()[0].toObject()["fullstartdate"].toString();
+    }
     QJsonParseError jsonErr;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(mReply->readAll(), &jsonErr);
+    QByteArray reply = mReply->readAll();
+    QFile QFile("test.json");
+    QFile.open(QFile::WriteOnly);
+    QFile.write(reply);
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply, &jsonErr);
     if(jsonDoc.isEmpty()){
         emit sigGetError(jsonErr.errorString());
         return;
     }
     mInfoJson = jsonDoc.object();
     mImageCount = mInfoJson["images"].toArray().size();
+    mCurrentInx = 0;
     mCurrentJsonObj = mInfoJson["images"].toArray()[mCurrentInx].toObject();
-    emit sigGetFinish();
+    QString nowVer = mInfoJson["images"].toArray()[0].toObject()["fullstartdate"].toString();
+    
+    emit sigGetFinish(nowVer != lastVer);
 }
 
 void WallpaperInfo::onGetError(QNetworkReply::NetworkError err)
 {
     qDebug() << err;
+}
+
+
+void WallpaperInfo::openGoogleEarthLink()
+{
+    QDesktopServices::openUrl(QUrl(getGoogleEarthLink()));
+}
+
+void WallpaperInfo::openCopyrightLink()
+{
+    QDesktopServices::openUrl(QUrl(getCopyrightLink()));
 }

@@ -14,10 +14,10 @@ public:
     WallpaperDown(QObject* parent = nullptr);
     ~WallpaperDown();
     void download(QString imgurl, QString fileName);
-
+    void stop();
 signals:
     void sigDownFinish();
-    void sigDownError(QNetworkReply::NetworkError);
+    void sigDownError(QString);
     void sigDownProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:
@@ -26,5 +26,7 @@ private:
     QString mFilename;
     QFile mFile;
     void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void onDownError(QNetworkReply::NetworkError);
     void onFinish();
+    void setWallpaper();
 };

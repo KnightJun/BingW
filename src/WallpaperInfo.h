@@ -14,14 +14,22 @@ public:
     ~WallpaperInfo();
     void getInfo();
     int getImageCount();
+    int getCurrentInx();
+    bool setCurrentInx(int inx);
+    void stop();
     QString getImageUrl(int width, int height);
     QString getCopyright();
+    QString getFullstartdate();
+    QString getEnddate();
     QString getCopyrightLink();
+    QString getKeywordUrlEncode();
     QString getKeyword();
     QString getGoogleEarthLink();
+    void openGoogleEarthLink();
+    void openCopyrightLink();
 
 signals:
-    void sigGetFinish();
+    void sigGetFinish(bool isNewer);
     void sigGetError(QString);
 
 private:
