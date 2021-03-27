@@ -37,7 +37,10 @@ private:
     void initMenu();
     void updateMenu();
     void onChangePageAct();
+    void SetRunOnStartup(bool isstart);
+    QIcon mTrayIcon;
     QSystemTrayIcon mSysTray;
+    QString mLastError;
     QMenu *mTaryMenu = nullptr;
     WallpaperInfo* mWpInfo  = nullptr;
     WallpaperDown* mWpDown  = nullptr;
@@ -54,6 +57,7 @@ private:
         QAction *googleEarth;
         QAction *saveas;
         QAction *preference;
+        QAction *runOnStart; 
         QAction *exit; 
     } mActs;
 };

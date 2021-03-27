@@ -4,10 +4,20 @@
 #include <QMenu>
 #include <QApplication>
 #include <QScreen>
+#include <QSettings>
+extern QSettings *gSetting;
+#define SettingKeyRunOnStartup      "RunOnStartup"
+
 Wallpaper::Wallpaper(/* args */)
 {
-    mSysTray.setIcon(QIcon(":/icon/tray.ico"));
+    mTrayIcon = QIcon(":/icon/tray.ico");
+    mSysTray.setIcon(mTrayIcon);
     mSysTray.show();
+
+    if(!gSetting->contains(SettingKeyRunOnStartup)){
+        SetRunOnStartup(true);
+    }
+
     mWpInfo = new WallpaperInfo(this);
     connect(mWpInfo, &WallpaperInfo::sigGetFinish, this, &Wallpaper::onWpInfoFinish);
     connect(mWpInfo, &WallpaperInfo::sigGetError, this, &Wallpaper::onError);
@@ -99,6 +109,7 @@ void Wallpaper::onWpDownFinish()
 
 void Wallpaper::onError(QString err)
 {
+    mLastError = err;
     mSysTray.showMessage(tr("Error occurred"), err, QSystemTrayIcon::Critical);
 }
 
@@ -121,6 +132,11 @@ void Wallpaper::initMenu()
 
     // mActs.saveas      = mTaryMenu->addAction(tr("Save as"));
     // mActs.preference  = mTaryMenu->addAction(tr("Preference"));
+    mActs.runOnStart  = mTaryMenu->addAction(tr("Run on system stratup"));
+    mActs.runOnStart->setCheckable(true);
+    mActs.runOnStart->setChecked(gSetting->value(SettingKeyRunOnStartup).toBool());
+    connect(mActs.runOnStart, &QAction::triggered, this, &Wallpaper::SetRunOnStartup);
+    
     mActs.exit        = mTaryMenu->addAction(tr("Exit"));
     connect(mActs.exit, &QAction::triggered, this, &QObject::deleteLater);
 }
@@ -177,4 +193,23 @@ void Wallpaper::stateChange(State sta)
     EnterState(CheckInfo);
     EnterState(DownLoading);
 #undef EnterState
+}
+
+void Wallpaper::SetRunOnStartup(bool isstart)
+{
+    QString application_name = QApplication::applicationName();
+    QSettings *settings = new QSettings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+    if(isstart){
+        QString application_path = QApplication::applicationFilePath();
+        settings->setValue(application_name, application_path.replace("/", "\\"));
+        if(!settings->contains(application_name)){
+            onError(tr("set run on system stratup failed."));
+        }
+    }
+    else{
+        if(settings->contains(application_name)){
+            settings->remove(application_name);
+        }
+    }
+    gSetting->setValue(SettingKeyRunOnStartup, isstart);
 }
