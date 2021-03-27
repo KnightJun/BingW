@@ -75,7 +75,6 @@ void Wallpaper::setStateInit(bool enable)
                 .arg(mWpInfo->getImageCount())
                 .arg(mWpInfo->getKeyword())
                 );
-            qDebug() << "startTimer:"<<mQueryTimer;
         }else{
             mActs.info->setText(tr("Error"));
         }
