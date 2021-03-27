@@ -33,6 +33,7 @@ private:
     void onWpInfoFinish(bool isNew);
     void onWpDownFinish();
     void onError(QString err);
+    void onKeepWallpaper(bool enable);
 
     void initMenu();
     void updateMenu();
@@ -47,6 +48,7 @@ private:
     WallpaperDown* mWpDown  = nullptr;
     int mState = -1;
     int mQueryTimer = -1;
+    bool mForcedRefresh = false;
 
     struct actions
     {
@@ -56,6 +58,7 @@ private:
         QAction *next;
         QAction *bing;
         QAction *googleEarth;
+        QAction *keepWallpaper;
         QAction *saveas;
         QAction *preference;
         QAction *runOnStart; 

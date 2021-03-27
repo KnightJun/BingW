@@ -78,7 +78,9 @@ void Wallpaper::setStateInit(bool enable)
         }else{
             mActs.info->setText(tr("Error"));
         }
-        mQueryTimer = startTimer(5*60000, Qt::VeryCoarseTimer); /*5 min*/
+        if(!mActs.keepWallpaper->isChecked()){
+            mQueryTimer = startTimer(5*60000, Qt::VeryCoarseTimer); /*5 min*/
+        }
 
         if(mLastError.isEmpty()){
             changeTrayIcon("");
@@ -131,8 +133,9 @@ void Wallpaper::setStateDownLoading(bool enable)
 void Wallpaper::onWpInfoFinish(bool isNew)
 {
     qInfo() << "Get infomation finish. new:" << isNew;
-    if(isNew){
+    if(isNew || mForcedRefresh){
         stateChange(DownLoading);
+        mForcedRefresh = false;
     }else{
         stateChange(Init);
     }
@@ -149,6 +152,16 @@ void Wallpaper::onError(QString err)
     qCritical() << err;
     mSysTray.showMessage(tr("Error occurred"), err, QSystemTrayIcon::Critical);
     stateChange(Init);
+}
+
+void Wallpaper::onKeepWallpaper(bool enable)
+{
+    if(enable){
+        killTimer(mQueryTimer);
+        mQueryTimer = -1;
+    }else{
+        mQueryTimer = startTimer(5*60000, Qt::VeryCoarseTimer);
+    }
 }
 
 void Wallpaper::initMenu()
@@ -168,6 +181,10 @@ void Wallpaper::initMenu()
     mActs.googleEarth = mTaryMenu->addAction(tr("Google earth"));
     connect(mActs.googleEarth, &QAction::triggered, mWpInfo, &WallpaperInfo::openGoogleEarthLink);
 
+    mActs.keepWallpaper = mTaryMenu->addAction(tr("Keep this wallpaper"));
+    mActs.keepWallpaper->setCheckable(true);
+    connect(mActs.keepWallpaper, &QAction::triggered, this, &Wallpaper::onKeepWallpaper);
+
     // mActs.saveas      = mTaryMenu->addAction(tr("Save as"));
     // mActs.preference  = mTaryMenu->addAction(tr("Preference"));
     mActs.runOnStart  = mTaryMenu->addAction(tr("Run on system stratup"));
@@ -181,12 +198,16 @@ void Wallpaper::initMenu()
 
 void Wallpaper::onChangePageAct()
 {
+    if(sender() == mActs.today){
+        mWpInfo->setCurrentInx(0);
+        mForcedRefresh = true;
+        stateChange(CheckInfo);
+        return;
+    }
     if(sender() == mActs.prev){
         mWpInfo->setCurrentInx(mWpInfo->getCurrentInx() + 1);
     }else if(sender() == mActs.next){
         mWpInfo->setCurrentInx(mWpInfo->getCurrentInx() - 1);
-    }else if(sender() == mActs.today){
-        mWpInfo->setCurrentInx(0);
     }else{
         onError("onChangePageAct:Unexpect call.");
         return;
@@ -210,6 +231,7 @@ void Wallpaper::updateMenu()
     mActs.next->setVisible(hasImageInfo && mWpInfo->getCurrentInx() > 0);
     mActs.today->setVisible(hasImageInfo);
     mActs.bing->setVisible(hasImageInfo);
+    mActs.keepWallpaper->setVisible(mState == Init && hasImageInfo);
     mActs.googleEarth->setVisible(hasImageInfo);
 }
 
