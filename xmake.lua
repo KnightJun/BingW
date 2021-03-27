@@ -1,6 +1,6 @@
 add_rules("mode.debug", "mode.release")
 
-target("BingBackground")
+target("BingWall")
     add_rules("qt.console")
     add_frameworks("QtCore", "QtWidgets", "QtGui","QtNetwork")
     add_files("resources/resources.qrc")
