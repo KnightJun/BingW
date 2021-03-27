@@ -35,6 +35,10 @@ void WallpaperDown::onFinish()
 void WallpaperDown::setWallpaper()
 {
 	QFileInfo fileInfo(mFile);
+	if(fileInfo.size() < 8 * 1024){
+		emit sigDownError(tr("wall paper size too small"));
+		return;
+	}
 	QString path(fileInfo.absoluteFilePath());
 	QByteArray byte = path.toLocal8Bit();
 	SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, byte.data(), SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
