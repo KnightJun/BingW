@@ -118,10 +118,13 @@ void WallpaperInfo::onGetFinish()
     }
     mInfoJson = jsonDoc.object();
     mImageCount = mInfoJson["images"].toArray().size();
-    mCurrentInx = 0;
-    mCurrentJsonObj = mInfoJson["images"].toArray()[mCurrentInx].toObject();
     QString nowVer = mInfoJson["images"].toArray()[0].toObject()["fullstartdate"].toString();
     
+    if(nowVer != lastVer){
+        mCurrentInx = 0;
+        mCurrentJsonObj = mInfoJson["images"].toArray()[mCurrentInx].toObject();
+    }
+
     emit sigGetFinish(nowVer != lastVer);
 }
 
