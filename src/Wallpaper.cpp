@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QScreen>
 #include <QSettings>
+#include <QPainter>
 extern QSettings *gSetting;
 #define SettingKeyRunOnStartup      "RunOnStartup"
 
@@ -33,6 +34,26 @@ Wallpaper::Wallpaper(/* args */)
     stateChange(State::CheckInfo);
 }
 
+void Wallpaper::changeTrayIcon(QString addIcon)
+{
+    if(addIcon.isEmpty()){
+        mSysTray.setIcon(mTrayIcon);
+        return;
+    }
+    const float iconSizePrecent = 0.6;
+    int iconSize = qMin(this->mSysTray.geometry().width(), this->mSysTray.geometry().height());
+    QPixmap newIcon = mTrayIcon.pixmap(iconSize, iconSize);
+    QImage addImg(addIcon);
+    QPainter p(&newIcon);
+    QRect dstRect = QRect(
+        iconSize * (1-iconSizePrecent), 
+        iconSize * (1-iconSizePrecent), 
+        iconSize * iconSizePrecent, 
+        iconSize * iconSizePrecent);
+    p.drawImage(dstRect, addImg);
+    mSysTray.setIcon(newIcon);
+}
+
 Wallpaper::~Wallpaper()
 {
     delete mTaryMenu;
@@ -51,16 +72,25 @@ void Wallpaper::setStateInit(bool enable)
                 .arg(mWpInfo->getImageCount())
                 .arg(mWpInfo->getKeyword())
                 );
-            mQueryTimer = startTimer(5*60000, Qt::VeryCoarseTimer); /*5 min*/
             qDebug() << "startTimer:"<<mQueryTimer;
         }else{
             mActs.info->setText(tr("Error"));
-            mQueryTimer = startTimer(3000);  /* when error happen, retry after 3 second */
         }
+        mQueryTimer = startTimer(5*60000, Qt::VeryCoarseTimer); /*5 min*/
+
+        if(mLastError.isEmpty()){
+            changeTrayIcon("");
+            mSysTray.setToolTip(mWpInfo->getCopyright());
+        }else{
+            changeTrayIcon(":/icon/error.png");
+            mSysTray.setToolTip(mLastError);
+        }
+        
     }else{
         qDebug() << "killTimer:"<<mQueryTimer;
         killTimer(mQueryTimer);
         mQueryTimer = -1;
+        mLastError.clear();
     }
 }
 
@@ -73,7 +103,9 @@ void Wallpaper::setStateCheckInfo(bool enable)
 {
     if(enable){
         mWpInfo->getInfo();
+        mSysTray.setToolTip("Query...");
         mActs.info->setText(tr("Query..."));
+        changeTrayIcon(":/icon/query.png");
     }else{
         mWpInfo->stop();
     }
@@ -83,6 +115,8 @@ void Wallpaper::setStateDownLoading(bool enable)
 {
     if(enable){
         mActs.info->setText(tr("Downloading..."));
+        mSysTray.setToolTip("Downloading...");
+        changeTrayIcon(":/icon/download.png");
         QScreen *screen=QApplication::primaryScreen();
         QRect screct = screen->availableGeometry();
         mWpDown->download(mWpInfo->getImageUrl(screct.width(), screct.height()), 
@@ -111,6 +145,7 @@ void Wallpaper::onError(QString err)
 {
     mLastError = err;
     mSysTray.showMessage(tr("Error occurred"), err, QSystemTrayIcon::Critical);
+    stateChange(Init);
 }
 
 void Wallpaper::initMenu()
@@ -170,6 +205,7 @@ void Wallpaper::updateMenu()
     bool hasImageInfo = mWpInfo->getImageCount() > 0;
     mActs.prev->setVisible(hasImageInfo && mWpInfo->getCurrentInx()  < mWpInfo->getImageCount() - 1);
     mActs.next->setVisible(hasImageInfo && mWpInfo->getCurrentInx() > 0);
+    mActs.today->setVisible(hasImageInfo);
     mActs.bing->setVisible(hasImageInfo);
     mActs.googleEarth->setVisible(hasImageInfo);
 }

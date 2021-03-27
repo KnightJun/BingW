@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/icon">
         <file>tray.ico</file>
+        <file>error.png</file>
+        <file>query.png</file>
+        <file>download.png</file>
     </qresource>
 </RCC>

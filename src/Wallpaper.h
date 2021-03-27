@@ -38,6 +38,7 @@ private:
     void updateMenu();
     void onChangePageAct();
     void SetRunOnStartup(bool isstart);
+    void changeTrayIcon(QString addIcon);
     QIcon mTrayIcon;
     QSystemTrayIcon mSysTray;
     QString mLastError;

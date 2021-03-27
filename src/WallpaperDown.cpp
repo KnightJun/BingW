@@ -19,6 +19,7 @@ void WallpaperDown::stop()
     mReply->disconnect();
     mReply->close();
     mReply->deleteLater();
+	mFile.close();
     mReply = nullptr;
 }
 
@@ -50,7 +51,8 @@ void WallpaperDown::download(QString imgurl, QString fileName)
     qDebug() << "imgurl:" << imgurl;
 	mReply = nam.get(request);
 	connect(mReply, &QNetworkReply::finished, this, &WallpaperDown::onFinish);
-	connect(mReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onDownError(QNetworkReply::NetworkError)));
+	connect(mReply, static_cast<void (QNetworkReply:: *)(QNetworkReply::NetworkError)>(&QNetworkReply::error)
+		, this, &WallpaperDown::onDownError);
 	connect(mReply, &QNetworkReply::downloadProgress, this, &WallpaperDown::sigDownProgress);
 	connect(mReply, &QNetworkReply::downloadProgress, this, &WallpaperDown::onDownloadProgress);
     mFilename = fileName;

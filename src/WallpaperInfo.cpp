@@ -130,6 +130,7 @@ void WallpaperInfo::onGetFinish()
 void WallpaperInfo::onGetError(QNetworkReply::NetworkError err)
 {
     qDebug() << err;
+    emit sigGetError(QString("get infomation network error, code:%1").arg(err));
 }
 
 
