@@ -87,7 +87,7 @@ QString WallpaperInfo::getGoogleEarthLink()
 
 QString WallpaperInfo::getKeywordUrlEncode()
 {
-    QRegExp rx("q=([%\\w\\d]+)&?");
+    QRegExp rx("q=([%\\w\\d-]+)&?");
     int pos = rx.indexIn(getCopyrightLink());
     if(pos < 0){
         emit sigGetError(tr("Get keyword failed!"));
