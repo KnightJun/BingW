@@ -6,6 +6,8 @@
 #include <QTextStream>
 #include <QDateTime>
 #include <QDebug>
+#include <QSharedMemory>
+#include <QMessageBox>
 #include "Wallpaper.h"
 #include "Version.h"
 QSettings *gSetting;
@@ -49,10 +51,21 @@ void outputMessage(QtMsgType type, const QMessageLogContext &context, const QStr
     mutex.unlock();
 }
 
+bool checkSingleApp()
+{
+    QString key = QString(STR_AppName) + STR_Corporation;
+    QSharedMemory *sha = new QSharedMemory(key);
+    if(!sha->create(1)){
+        QMessageBox::warning(nullptr, QObject::tr("Conflict"), QObject::tr("The same process is already in place"));
+        return false;
+    };
+    return true;
+}
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    if(!checkSingleApp()) return 0;
     qInstallMessageHandler(outputMessage);
     QApplication::setApplicationName(STR_AppName);
     QApplication::setApplicationVersion(STR_Version);
