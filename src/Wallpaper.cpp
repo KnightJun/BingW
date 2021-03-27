@@ -18,6 +18,8 @@ Wallpaper::Wallpaper(/* args */)
 
     if(!gSetting->contains(SettingKeyRunOnStartup)){
         SetRunOnStartup(true);
+    }else{
+        SetRunOnStartup(gSetting->value(SettingKeyRunOnStartup).toBool());
     }
 
     mWpInfo = new WallpaperInfo(this);
