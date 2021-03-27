@@ -34,6 +34,7 @@ bool WallpaperInfo::setCurrentInx(int inx)
     }
     mCurrentInx = inx;
     mCurrentJsonObj = mInfoJson["images"].toArray()[mCurrentInx].toObject();
+    return true;
 }
 
 WallpaperInfo::~WallpaperInfo()

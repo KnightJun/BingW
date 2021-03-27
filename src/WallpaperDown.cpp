@@ -1,6 +1,7 @@
 #include "WallpaperDown.h"
 #include <QFileInfo>
 #include <QSettings>
+#include <QDebug>
 #ifdef _WIN32
 #include <windows.h>
 #endif

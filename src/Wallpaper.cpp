@@ -6,6 +6,7 @@
 #include <QScreen>
 #include <QSettings>
 #include <QPainter>
+#include <QDebug>
 extern QSettings *gSetting;
 #define SettingKeyRunOnStartup      "RunOnStartup"
 
@@ -144,6 +145,7 @@ void Wallpaper::onWpDownFinish()
 void Wallpaper::onError(QString err)
 {
     mLastError = err;
+    qCritical() << err;
     mSysTray.showMessage(tr("Error occurred"), err, QSystemTrayIcon::Critical);
     stateChange(Init);
 }

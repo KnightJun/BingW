@@ -1,7 +1,7 @@
 add_rules("mode.debug", "mode.release")
 
-target("BingWall")
-    add_rules("qt.console")
+target("BingW")
+    add_rules("qt.widgetapp")
     add_frameworks("QtCore", "QtWidgets", "QtGui","QtNetwork")
     add_files("resources/resources.qrc")
     add_files("src/*.cpp")
