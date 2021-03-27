@@ -111,9 +111,6 @@ void WallpaperInfo::onGetFinish()
     }
     QJsonParseError jsonErr;
     QByteArray reply = mReply->readAll();
-    QFile QFile("test.json");
-    QFile.open(QFile::WriteOnly);
-    QFile.write(reply);
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply, &jsonErr);
     if(jsonDoc.isEmpty()){
         emit sigGetError(jsonErr.errorString());
