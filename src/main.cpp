@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QSharedMemory>
 #include <QMessageBox>
+#include <QDir>
 #include "Wallpaper.h"
 #include "Version.h"
 QSettings *gSetting;
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     if(!checkSingleApp()) return 0;
+    QDir::setCurrent(QApplication::applicationDirPath());
     qInstallMessageHandler(outputMessage);
     QApplication::setApplicationName(STR_AppName);
     QApplication::setApplicationVersion(STR_Version);
