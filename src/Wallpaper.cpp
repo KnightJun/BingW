@@ -121,7 +121,7 @@ void Wallpaper::setStateDownLoading(bool enable)
         QScreen *screen=QApplication::primaryScreen();
         QRect screct = screen->availableGeometry();
         mWpDown->download(mWpInfo->getImageUrl(screct.width(), screct.height()), 
-                "./" + mWpInfo->getFullstartdate() + ".jpg");
+                "./wallpaper.jpg");
     }else{
         mWpDown->stop();
     }

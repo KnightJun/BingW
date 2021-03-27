@@ -35,11 +35,7 @@ void WallpaperDown::onFinish()
 void WallpaperDown::setWallpaper()
 {
 	QFileInfo fileInfo(mFile);
-
-	QSettings wallPaper("HKEY_CURRENT_USER\\Control Panel\\Desktop", QSettings::NativeFormat);
 	QString path(fileInfo.absoluteFilePath());
-	wallPaper.setValue("Wallpaper", path);
-	qDebug() << "change wallpaper to " << fileInfo.absoluteFilePath();
 	QByteArray byte = path.toLocal8Bit();
 	SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, byte.data(), SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
 
