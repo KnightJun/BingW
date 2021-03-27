@@ -1,0 +1,31 @@
+#define APSTUDIO_HIDDEN_SYMBOLS
+//……
+#include "Version.h"
+#include "Windows.h"
+//……
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+IDI_ICON1          ICON   DISCARDABLE   "./src/main.ico"
+1 VERSIONINFO
+FILEVERSION VER_Major, VER_Minor, VER_Release, VER_Build
+PRODUCTVERSION VER_Major, VER_Minor, VER_Release, VER_Build
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080404b0"
+    BEGIN
+            VALUE "FileVersion",      TEXT(STR_Version)
+            VALUE "FileDescription",  TEXT(STR_Description)
+            VALUE "ProductName",      TEXT(STR_AppName)
+            VALUE "ProductVersion",   TEXT(STR_Version)
+            VALUE "CompanyName",      TEXT(STR_Corporation)
+            VALUE "LegalCopyright",   TEXT(STR_Copyright)
+            VALUE "Comments", "Powered by " STR_Author "."
+            VALUE "OriginalFilename", TEXT(STR_AppName) ".exe"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 2052, 1200
+  END
+END
