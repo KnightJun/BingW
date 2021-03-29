@@ -1,0 +1,16 @@
+imageformats/
+imageformats/qico.dll
+libcrypto-1_1-x64.dll
+libssl-1_1-x64.dll
+msvcp140.dll
+platforms/
+platforms/qwindows.dll
+Qt5Core.dll
+Qt5Gui.dll
+Qt5Network.dll
+Qt5Widgets.dll
+styles/
+styles/qwindowsvistastyle.dll
+vcruntime140.dll
+vcruntime140_1.dll
+BingW.exe
