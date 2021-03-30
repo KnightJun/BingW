@@ -8,8 +8,8 @@
 
 void WallpaperInfo::getInfo()
 {
-    const QString infoUrl = "HPImageArchive.aspx?format=js&idx=0&n=10&FORM=BEHPTB&uhd=1&uhdwidth=1920&uhdheight=1080";
-    QNetworkRequest request(mBaseUrl + infoUrl);
+    const QString infoUrl = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=10&FORM=BEHPTB&uhd=1&mkt=ja-JP";
+    QNetworkRequest request(infoUrl);
     mReply = nam.get(request);
     connect(mReply, &QNetworkReply::finished, this, &WallpaperInfo::onGetFinish);
     connect(mReply, 

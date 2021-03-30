@@ -1,6 +1,6 @@
 #include <QObject>
 #include <QSystemTrayIcon>
-
+#include "AboutDialog.h"
 class WallpaperInfo;
 class WallpaperDown;
 class QAction;
@@ -61,6 +61,7 @@ private:
         QAction *keepWallpaper;
         QAction *saveas;
         QAction *preference;
+        QAction *about;
         QAction *runOnStart; 
         QAction *exit; 
     } mActs;
