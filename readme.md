@@ -1,6 +1,7 @@
-<center>
-    <img src="./src/main.ico">
-</center>
+<div align=center>
+    <img width="120" height="120" src="./src/main.ico">
+</div>  
+
 # BingW  
 自动设置壁纸为bing每日壁纸  
 
