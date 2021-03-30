@@ -1,3 +1,6 @@
+<center>
+    <img src="./src/main.ico">
+</center>
 # BingW  
 自动设置壁纸为bing每日壁纸  
 
