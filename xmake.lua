@@ -1,6 +1,6 @@
 add_rules("mode.debug", "mode.release")
 
-target("postman")
+target("BingW")
     add_rules("qt.widgetapp")
     add_frameworks("QtCore", "QtWidgets", "QtGui","QtNetwork")
     add_files("resources/resources.qrc")
