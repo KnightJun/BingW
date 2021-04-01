@@ -266,6 +266,7 @@ void Wallpaper::stateChange(State sta)
 
 void Wallpaper::SetRunOnStartup(bool isstart)
 {
+#if defined(Q_OS_WIN)
     QString application_name = QApplication::applicationName();
     QSettings *settings = new QSettings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
     if(isstart){
@@ -281,4 +282,7 @@ void Wallpaper::SetRunOnStartup(bool isstart)
         }
     }
     gSetting->setValue(SettingKeyRunOnStartup, isstart);
+#elif defined(Q_OS_MAC)
+	qDebug() << "Todo : set start on " << isstart;
+#endif
 }

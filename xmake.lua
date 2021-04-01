@@ -7,4 +7,6 @@ target("BingW")
     add_files("resources/*.ui")
     add_files("src/*.cpp")
     add_files("src/*.h")
-    add_files("src/app.rc")
+    if(is_os("windows"))then 
+        add_files("src/app.rc")
+    end 
