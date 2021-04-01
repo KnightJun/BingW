@@ -35,7 +35,7 @@
 * [xmake](https://github.com/xmake-io/xmake) 基于lua的跨平台，易于使用的构建系统  
 
 ## 编译方法
-目前只支持windows系统，建议使用MSVC，进行编译，安装好Qt，xmake之后，在代码的根目录执行`xmake`命令即可编译
+目前只支持windows系统，建议使用MSVC进行编译，安装好Qt，xmake之后，在代码的根目录执行`xmake`命令即可编译
 
 ## 使用许可
 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
