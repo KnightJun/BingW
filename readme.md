@@ -1,19 +1,49 @@
+<div align=center>
+    <img width="120" height="120" src="./src/main.ico">
+</div>  
+
+English | [简体中文](./readme_zh-cn.md)  
+
 # BingW  
-自动设置壁纸为bing每日壁纸  
+Automatically set wallpaper as bing daily wallpaper  
 
-# 使用方法
-从release下载zip压缩包后，解压到某个目录，打开BingW，即可自动检测并设置最新的bing壁纸，启动后程序会显示在任务栏托盘区域，右键图标可以看到一些功能选项  
+## Contents
 
-# 功能  
-* 切换最近一周的壁纸  
-* 通过bing搜索壁纸相关信息  
-* 通过Google earth搜索壁纸相关地点（只有风景壁纸适合使用）  
-* 保持当前壁纸，不自动更新  
+- [Background](#Background)
+- [Installation](#Installation)
+- [Usage](#Usage)
+    - [Features](#Features)
+- [Dependency](#Dependency)
+- [Compile](#Compile)
+- [License](#License)
 
-# 编译方法
-先装好依赖：Qt, MSVC, xmake  
-执行命令: `xmake`
+## Background  
+I wrote this program because the official bing wallpaper program didn't work on my windows 10 and there were no error messages, so I write this using Qt and added a search function via Google earth.  
 
-# Q&A
-Q：已经有BingWallpaper，为何还需要这个程序  
-A：BingWallpaper的稳定性并不好（在我的windows 10系统上），经常出现托盘图标消失，壁纸不更新的问题。  
+## Installation  
+After downloading the zip archive from release, extract it to the specified directory.
+
+## Usage  
+![avatar](./Images/usage.webp)  
+Open BingW.exe, it can automatically detect and set the latest bing wallpaper, after starting the program will be displayed in the taskbar tray area, right-click the icon can see some function options, the default is to start with the system, you can right-click through the tray to close.  
+
+### Features  
+* Toggle recent week's wallpaper.  
+* Search information of the wallpaper by Bing.  
+* Search address by Google earth(Only for landscape wallpapers).  
+* Keep current wallpaper, no automatic updates.  
+
+## Dependency
+* [Qt](https://www.qt.io/) A prowerfull and cross-paltform C++ framework.  
+* [xmake](https://github.com/xmake-io/xmake) A easy to use build system, base on Lua.  
+
+## Compile
+At present, only windows system is supported, it is recommended to use MSVB to compile. After installing Qt and xmake, excute `xmake` command in the source directoy to compile.
+
+## License
+[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+---
+<div align="center">
+<h3>For rabbit</h3>
+</div>

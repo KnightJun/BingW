@@ -66,6 +66,7 @@ bool checkSingleApp()
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setQuitOnLastWindowClosed(false);
     if(!checkSingleApp()) return 0;
     QDir::setCurrent(QApplication::applicationDirPath());
     qInstallMessageHandler(outputMessage);

@@ -1,8 +1,12 @@
 <RCC>
-    <qresource prefix="/icon">
-        <file>tray.ico</file>
-        <file>error.png</file>
-        <file>query.png</file>
-        <file>download.png</file>
-    </qresource>
+  <qresource prefix="/icon">
+    <file>tray.ico</file>
+    <file>error.png</file>
+    <file>query.png</file>
+    <file>download.png</file>
+  </qresource>
+  <qresource prefix="image">
+    <file>github.png</file>
+    <file>buildwithqt.png</file>
+  </qresource>
 </RCC>

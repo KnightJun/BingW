@@ -1,6 +1,7 @@
 #include "Wallpaper.h"
 #include "WallpaperDown.h"
 #include "WallpaperInfo.h"
+#include "AboutDialog.h"
 #include <QMenu>
 #include <QApplication>
 #include <QScreen>
@@ -175,23 +176,30 @@ void Wallpaper::initMenu()
     connect(mActs.prev, &QAction::triggered, this, &Wallpaper::onChangePageAct);
     connect(mActs.next, &QAction::triggered, this, &Wallpaper::onChangePageAct);
     connect(mActs.today, &QAction::triggered, this, &Wallpaper::onChangePageAct);
+    mActs.keepWallpaper = mTaryMenu->addAction(tr("Keep this wallpaper"));
+    mActs.keepWallpaper->setCheckable(true);
+    connect(mActs.keepWallpaper, &QAction::triggered, this, &Wallpaper::onKeepWallpaper);
 
+    mTaryMenu->addSeparator();
     mActs.bing        = mTaryMenu->addAction(tr("Bing search"));
     connect(mActs.bing, &QAction::triggered, mWpInfo, &WallpaperInfo::openCopyrightLink);
     mActs.googleEarth = mTaryMenu->addAction(tr("Google earth"));
     connect(mActs.googleEarth, &QAction::triggered, mWpInfo, &WallpaperInfo::openGoogleEarthLink);
 
-    mActs.keepWallpaper = mTaryMenu->addAction(tr("Keep this wallpaper"));
-    mActs.keepWallpaper->setCheckable(true);
-    connect(mActs.keepWallpaper, &QAction::triggered, this, &Wallpaper::onKeepWallpaper);
-
+    mTaryMenu->addSeparator();
     // mActs.saveas      = mTaryMenu->addAction(tr("Save as"));
     // mActs.preference  = mTaryMenu->addAction(tr("Preference"));
     mActs.runOnStart  = mTaryMenu->addAction(tr("Run on system stratup"));
     mActs.runOnStart->setCheckable(true);
     mActs.runOnStart->setChecked(gSetting->value(SettingKeyRunOnStartup).toBool());
     connect(mActs.runOnStart, &QAction::triggered, this, &Wallpaper::SetRunOnStartup);
-    
+    mActs.about       = mTaryMenu->addAction(tr("About"));
+    connect(mActs.about, &QAction::triggered, this, [&]{
+        AboutDialog *about = new AboutDialog();
+        about->setModal(true);
+        about->show();
+    });
+
     mActs.exit        = mTaryMenu->addAction(tr("Exit"));
     connect(mActs.exit, &QAction::triggered, this, &QObject::deleteLater);
 }
@@ -258,6 +266,7 @@ void Wallpaper::stateChange(State sta)
 
 void Wallpaper::SetRunOnStartup(bool isstart)
 {
+#if defined(Q_OS_WIN)
     QString application_name = QApplication::applicationName();
     QSettings *settings = new QSettings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
     if(isstart){
@@ -273,4 +282,7 @@ void Wallpaper::SetRunOnStartup(bool isstart)
         }
     }
     gSetting->setValue(SettingKeyRunOnStartup, isstart);
+#elif defined(Q_OS_MAC)
+	qDebug() << "Todo : set start on " << isstart;
+#endif
 }
