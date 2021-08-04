@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QSharedMemory>
 #include <QMessageBox>
+#include <QTranslator>
 #include <QDir>
 #include "Wallpaper.h"
 #include "Version.h"
@@ -51,6 +52,31 @@ void outputMessage(QtMsgType type, const QMessageLogContext &context, const QStr
     file.close();
     mutex.unlock();
 }
+void LoadTranlateFile(QApplication * app)
+{
+    //增加多语言支持
+    QString translatorFileName = "";
+    auto lo = QLocale();
+
+    QTranslator *translator = new QTranslator(app);
+    qDebug() << "lo.language()" << lo.language() << ",china=" <<QLocale::China;
+    switch(lo.language())
+    {
+    case QLocale::China:
+    case QLocale::Taiwan:
+    case QLocale::HongKong:
+    case QLocale::Chinese:
+        translatorFileName = ":/qm/zh_cn.qm";
+        break;
+    }
+    if (translatorFileName!="")
+    {
+        if (translator->load(translatorFileName))
+        {
+            app->installTranslator(translator);
+        }
+    }
+}
 
 bool checkSingleApp()
 {
@@ -70,6 +96,7 @@ int main(int argc, char *argv[])
     if(!checkSingleApp()) return 0;
     QDir::setCurrent(QApplication::applicationDirPath());
     qInstallMessageHandler(outputMessage);
+    LoadTranlateFile(&a);
     QApplication::setApplicationName(STR_AppName);
     QApplication::setApplicationVersion(STR_Version);
     QApplication::setOrganizationName(STR_Corporation);

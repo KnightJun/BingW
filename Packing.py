@@ -50,7 +50,7 @@ def PackToZip(absDir,zipF, fileList):
 
 targetProcess = "BingW.exe"
 depList = get_dependency("Dependency.txt")
-installPath = "./Install/"
+installPath = "./Install/BingW"
 pid = get_pid(targetProcess)
 if(not pid):
     print("Can't find target process:" + targetProcess)

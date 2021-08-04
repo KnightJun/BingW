@@ -9,4 +9,7 @@
     <file>github.png</file>
     <file>buildwithqt.png</file>
   </qresource>
+  <qresource prefix="qm">
+    <file>zh_cn.qm</file>
+  </qresource>
 </RCC>

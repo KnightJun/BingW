@@ -1,8 +1,8 @@
 #pragma once
 
-#define VER_Major    0
+#define VER_Major    1
 #define VER_Minor    0
-#define VER_Release    1 
+#define VER_Release  1
 #ifndef VER_Build
 #define VER_Build    0
 #endif

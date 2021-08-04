@@ -108,7 +108,7 @@ void Wallpaper::setStateCheckInfo(bool enable)
 {
     if(enable){
         mWpInfo->getInfo();
-        mSysTray.setToolTip("Query...");
+        mSysTray.setToolTip(tr("Query..."));
         mActs.info->setText(tr("Query..."));
         changeTrayIcon(":/icon/query.png");
     }else{
@@ -120,7 +120,7 @@ void Wallpaper::setStateDownLoading(bool enable)
 {
     if(enable){
         mActs.info->setText(tr("Downloading..."));
-        mSysTray.setToolTip("Downloading...");
+        mSysTray.setToolTip(tr("Downloading..."));
         changeTrayIcon(":/icon/download.png");
         QScreen *screen=QApplication::primaryScreen();
         QRect screct = screen->availableGeometry();
